@@ -27,8 +27,22 @@ constructor(props) {
      attachement: "",
      assignedTo: "",
  status:"",
-     priority: ""
+     priority: "",
+     allUsers:[]
    };
+  }
+
+componentDidMount() {
+    NetworkService.getAllUsers()
+      .then(response => {
+        this.setState({
+          allUsers: response.data
+        });
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
   }
  
   onChangeTitle(e) {
@@ -136,6 +150,7 @@ status:"",
   }
  
   render() {
+	  const {constUsers} = this.state;
     return (
       <div className="submit-form">
         {this.state.submitted ? (
@@ -172,18 +187,13 @@ status:"",
                 name="description"
               />
             </div>
-           
             <div className="form-group">
               <label htmlFor="createdBy">Created By</label>
-              <input
-                type="text"
-                className="form-control"
-                id="createdBy"
-                required
-                value={this.state.createdBy}
-                onChange={this.onChangeCreatedBy}
-                name="createdBy"
-              />
+          	  <select>
+		           {this.state.allUsers.map(optn => (
+		               <option>{optn}</option>
+		            ))}
+		      </select>
             </div>
 
             <div className="form-group">
