@@ -18,17 +18,19 @@ constructor(props) {
    this.newBug = this.newBug.bind(this);
 
    this.state = {
- id: null,
+     id: null,
      bugTitle: "",
      bugDescription: "",
      createdBy: "",
- createdOn:"",
- testingType: "",
+     createdOn:"",
      attachement: "",
      assignedTo: "",
- status:"",
-     priority: "",
-     allUsers:[]
+     status:"",
+     allUsers:[],
+     testingType:"",
+     testingTypeList:["System Testing","Unit Testing","Integration Testing"],
+     priority:"",
+     priorityList:["Low","Medium","High"]
    };
   }
 
@@ -36,7 +38,9 @@ componentDidMount() {
     NetworkService.getAllUsers()
       .then(response => {
         this.setState({
-          allUsers: response.data
+          allUsers: response.data,
+          testingType: ["System Testing","Unit Testing","Integration Testing"],
+          priority: ["Low","Medium","High"]
         });
         console.log(response.data);
       })
@@ -101,16 +105,16 @@ componentDidMount() {
  
   newBug() {
     this.setState({
-   id: null,
-      bugTitle: "",
-   bugDescription: "",
-   createdBy: "",
-createdOn:"",
-testingType: "",
-   attachement: "",
-   assignedTo: "",
-status:"",
-   priority: ""
+    	id: null,
+    	bugTitle: "",
+    	bugDescription: "",
+    	createdBy: "",
+    	createdOn:"",
+    	testingType: "",
+    	attachement: "",
+    	assignedTo: "",
+    	status:"",
+    	priority: ""
     });
   }
  
@@ -118,13 +122,13 @@ status:"",
     var data = {
       bugTitle: this.state.bugTitle,
       bugDescription: this.state.bugDescription,
-      createdBy: this.state.createdBy,
-      createdOn: this.state.createdOn,
-      testingType: this.state.testingType,
+      createdBy: this.createdBy.value,
+      createdOn: new Date(this.createdOn.value).getTime(),
+      testingType: this.testingType.value,
       attachement: this.state.attachement,
-      assignedTo: this.state.assignedTo,
+      assignedTo: this.assignedTo.value,
       status: this.state.status,
-      priority: this.state.priority
+      priority: this.priority.value
     };
 
     NetworkService.create(data)
@@ -189,43 +193,45 @@ status:"",
             </div>
             <div className="form-group">
               <label htmlFor="createdBy">Created By</label>
-          	  <select>
-		           {this.state.allUsers.map(optn => (
-		               <option>{optn}</option>
-		            ))}
-		      </select>
+              <input
+                type="text"
+                className="form-control"
+                id="createdBy"
+                required
+                disabled
+                value={this.props.user.userName}
+                name="description"
+                ref = {(input)=> this.createdBy = input/>
             </div>
 
             <div className="form-group">
               <label htmlFor="createdOn">Created On</label>
               <input
-                type="text"
+                type="date"
                 className="form-control"
                 id="createdOn"
                 required
                 value={this.state.createdOn}
                 onChange={this.onChangeCreatedOn}
                 name="createdOn"
+                ref = {(input)=> this.createdOn = input}
               />
             </div>
            
             <div className="form-group">
               <label htmlFor="testingType">Testing Type</label>
-              <input
-                type="text"
-                className="form-control"
-                id="testingType"
-                required
-                value={this.state.testingType}
-                onChange={this.onChangeTestingType}
-                name="testingType"
-              />
+          	  <select id="testingType" name="testingType" onChange={this.onChangeTestingType}
+          	  		ref = {(input)=> this.testingType = input}>
+		           {this.state.testingTypeList.map(optn => (
+		               <option value={optn}>{optn}</option>
+		            ))}
+		      </select>
             </div>
 
             <div className="form-group">
               <label htmlFor="attachement">Attachement</label>
               <input
-                type="text"
+                type="file"
                 className="form-control"
                 id="attachement"
                 required
@@ -237,15 +243,12 @@ status:"",
            
             <div className="form-group">
               <label htmlFor="assignedTo">Assigned To</label>
-              <input
-                type="text"
-                className="form-control"
-                id="assignedTo"
-                required
-                value={this.state.assignedTo}
-                onChange={this.onChangeAssignedTo}
-                name="assignedTo"
-              />
+              <select id="assignedTo" name="assignedTo" onChange={this.onChangeAssignedTo}
+              ref = {(input)=> this.assignedTo = input}>
+		           {this.state.allUsers.map(optn => (
+		               <option value={optn}>{optn}</option>
+		            ))}
+	           </select>
             </div>
            
             <div className="form-group">
@@ -263,15 +266,12 @@ status:"",
 
             <div className="form-group">
               <label htmlFor="priority">Priority</label>
-              <input
-                type="text"
-                className="form-control"
-                id="priority"
-                required
-                value={this.state.priority}
-                onChange={this.onChangePriority}
-                name="priority"
-              />
+	              <select id="priority" name="priority" onChange={this.onChangePriority}
+	              	ref = {(input)=> this.priority = input}>
+		           {this.state.priorityList.map(optn => (
+		               <option value={optn}>{optn}</option>
+		            ))}
+		           </select>
             </div>
 
             <button onClick={this.saveBug} className="btn btn-success">
