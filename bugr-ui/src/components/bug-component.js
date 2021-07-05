@@ -201,7 +201,7 @@ componentDidMount() {
                 disabled
                 value={this.props.user.userName}
                 name="description"
-                ref = {(input)=> this.createdBy = input/>
+                ref = {(input)=> this.createdBy = input}/>
             </div>
 
             <div className="form-group">

@@ -21,6 +21,10 @@ class NetworkService {
   create(data) {
     return http.post("/api/bugs", data);
   }
+  
+  createUser(data) {
+    return http.post("/users", data);
+  }
 
   update(id, data) {
     return http.put(`/api/bugs/${id}`, data);
