@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import NetworkService from "../services/network-service";
+import "../css/user.css";
 
 class UserComponent extends Component {
 	constructor(props) {
@@ -16,6 +17,8 @@ class UserComponent extends Component {
 	     password: "",
 	     roles: "",
 	     roleList:["Manager","Tester","Developer"],
+	     userNameError:"",
+	     passwordError:""
 	   };
 	}
 	
@@ -46,27 +49,46 @@ class UserComponent extends Component {
 	    });
 	}
 	
+	validateForm = (data) =>{
+		if (data.userName=="") {
+			this.setState({
+				userNameError: "Username Cannot be empty"
+		    });
+			return false;
+		}
+		if (data.password=="") {
+			this.setState({
+				passwordError: "Password Cannot be empty",
+				userNameError:""
+		    });
+			return false;
+		}
+		return true;
+	}
+	
 	saveUser() {
 	    var data = {
 	      userName: this.state.userName,
 	      password: this.state.password,
 	      roles: this.roles.value,
 	    };
-
-	    NetworkService.createUser(data)
-	      .then(response => {
-	        this.setState({
-	          id: response.data.id,
-	          userName: response.data.userName,
-	          password: response.data.password,
-	          roles: response.data.roles,
-	          submitted: true
-	        });
-	        console.log(response.data);
-	      })
-	      .catch(e => {
-	        console.log(e);
-	      });
+	    
+	    if (this.validateForm(data)) {
+	    	NetworkService.createUser(data)
+		      .then(response => {
+		        this.setState({
+		          id: response.data.id,
+		          userName: response.data.userName,
+		          password: response.data.password,
+		          roles: response.data.roles,
+		          submitted: true
+		        });
+		        console.log(response.data);
+		      })
+		      .catch(e => {
+		        console.log(e);
+		      });
+		}
 	  }
 
   render() {
@@ -92,6 +114,9 @@ class UserComponent extends Component {
                 onChange={this.onChangeName}
                 name="userName"
               />
+               <div class="error">
+              		{this.state.userNameError}
+              </div>
             </div>
 
             <div className="form-group">
@@ -105,6 +130,9 @@ class UserComponent extends Component {
                 onChange={this.onChangePassword}
                 name="password"
               />
+              <div class="error">
+              		{this.state.passwordError}
+              </div>
             </div>
             <div className="form-group">
               <label htmlFor="role">Role</label>

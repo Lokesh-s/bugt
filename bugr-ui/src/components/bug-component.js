@@ -35,7 +35,7 @@ constructor(props) {
   }
 
 componentDidMount() {
-    NetworkService.getAllUsers()
+    NetworkService.getAllUsers(this.props.user.userName)
       .then(response => {
         this.setState({
           allUsers: response.data,

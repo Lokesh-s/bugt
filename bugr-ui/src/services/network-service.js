@@ -2,8 +2,8 @@ import http from "../http-common";
 
 class NetworkService {
 	
-  getAllUsers(){
-	 return http.get("/allUsers");
+  getAllUsers(currentUser){
+	 return http.get("/allUsers/"+currentUser);
   }
   
   getUserDetails() {

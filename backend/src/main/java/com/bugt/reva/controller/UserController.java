@@ -21,8 +21,8 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	@GetMapping("/allUsers")
-	public ResponseEntity<List<String>> getAllUsers(){
+	@GetMapping("/allUsers/{currentUser}")
+	public ResponseEntity<List<String>> getAllUsers(@PathVariable("currentUser") String currentUser){
 		try {
 			List<String> userList = new ArrayList<String>();
 			List<User> allUsers=userService.findAll();
@@ -32,7 +32,9 @@ public class UserController {
 			}else {
 				for (int i = 0; i < allUsers.size(); i++) {
 					User user=allUsers.get(i);
-					userList.add(user.getUserName());
+					if (!user.getUserName().equalsIgnoreCase(currentUser)) {
+						userList.add(user.getUserName());
+					}
 				}
 			}
 			return new ResponseEntity<>(userList, HttpStatus.OK);
