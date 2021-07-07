@@ -30,7 +30,8 @@ constructor(props) {
      testingType:"",
      testingTypeList:["System Testing","Unit Testing","Integration Testing"],
      priority:"",
-     priorityList:["Low","Medium","High"]
+     priorityList:["Low","Medium","High"],
+     defectStatusList:[]
    };
   }
 
@@ -47,6 +48,17 @@ componentDidMount() {
       .catch(e => {
         console.log(e);
       });
+    
+    NetworkService.getDefectStatus(this.props.user.authorities[0].authority)
+    .then(response => {
+      this.setState({
+    	  defectStatusList: response.data
+      });
+      console.log(response.data);
+    })
+    .catch(e => {
+      console.log(e);
+    });
   }
  
   onChangeTitle(e) {
@@ -127,7 +139,7 @@ componentDidMount() {
       testingType: this.testingType.value,
       attachement: this.state.attachement,
       assignedTo: this.assignedTo.value,
-      status: this.state.status,
+      status: this.status.value,
       priority: this.priority.value
     };
 
@@ -253,15 +265,12 @@ componentDidMount() {
            
             <div className="form-group">
               <label htmlFor="status">Status</label>
-              <input
-                type="text"
-                className="form-control"
-                id="status"
-                required
-                value={this.state.status}
-                onChange={this.onChangeStatus}
-                name="status"
-              />
+              <select id="status" name="status" onChange={this.onChangeStatus}
+            	ref = {(input)=> this.status = input}>
+		           {this.state.defectStatusList.map(optn => (
+		               <option value={optn}>{optn}</option>
+		            ))}
+	           </select>
             </div>
 
             <div className="form-group">

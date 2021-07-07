@@ -6,6 +6,10 @@ class NetworkService {
 	 return http.get("/allUsers/"+currentUser);
   }
   
+  getDefectStatus(currentRole){
+	  return http.get("/user/bugstatus/"+currentRole);
+  }
+  
   getUserDetails() {
 	 return http.get("/userDetails");
   }

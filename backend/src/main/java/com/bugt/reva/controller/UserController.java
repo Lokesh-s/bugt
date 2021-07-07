@@ -1,6 +1,7 @@
 package com.bugt.reva.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.bugt.reva.model.Permission;
 import com.bugt.reva.model.User;
+import com.bugt.reva.service.PermissionService;
 import com.bugt.reva.service.UserService;
 
 @RestController
@@ -20,6 +24,9 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	PermissionService permissionService;
 	
 	@GetMapping("/allUsers/{currentUser}")
 	public ResponseEntity<List<String>> getAllUsers(@PathVariable("currentUser") String currentUser){
@@ -71,6 +78,29 @@ public class UserController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@GetMapping("/user/bugstatus/{role}")
+	public ResponseEntity<List<String>> bugStatus(@PathVariable("role") String role) {
+		Permission permission=permissionService.getRoleStatus(role);
+		String roleStatus=permission.getStatusList();
+		List<String> defectStatusList=Arrays.asList(roleStatus.split(","));
+		if (!roleStatus.isEmpty()) {
+			return new ResponseEntity<>(defectStatusList, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping("/user/bugstatus")
+	public ResponseEntity<Permission> addBugStatus() {
+		Permission permission = new Permission();
+		List<String> statusList=new ArrayList<>();
+		statusList.add("Open");
+		statusList.add("Closed");
+		permission.setRoleName("Manager");
+		permission.setStatusList("Open,Closed");
+		return new ResponseEntity<>(permissionService.save(permission), HttpStatus.OK);
 	}
 
 }

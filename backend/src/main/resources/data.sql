@@ -4,3 +4,6 @@ insert into bugt.users values(202,true,'test','Developer','Dev1');
 insert into bugt.users values(203,true,'test','Manager','Man2');
 insert into bugt.users values(204,true,'test','Tester','Test2');
 insert into bugt.users values(205,true,'test','Developer','Dev2');
+insert into bugt.permissions values(1,'Manager','Open,Close,Fixed,Re-Test,Deferred');
+insert into bugt.permissions values(2,'Tester','Open,Close');
+insert into bugt.permissions values(3,'Developer','Fixed,Re-Test');
