@@ -31,7 +31,12 @@ constructor(props) {
      testingTypeList:["System Testing","Unit Testing","Integration Testing"],
      priority:"",
      priorityList:["Low","Medium","High"],
-     defectStatusList:[]
+     defectStatusList:[],
+     titleError:"",	
+     descriptionError:"",
+      createdOnError:"",	
+      attachementError:"",
+      allUsersError:""
    };
   }
 
@@ -63,13 +68,15 @@ componentDidMount() {
  
   onChangeTitle(e) {
     this.setState({
-      bugTitle: e.target.value
+      bugTitle: e.target.value,
+      titleError:""
     });
   }
 
   onChangeDescription(e) {
     this.setState({
-      bugDescription: e.target.value
+      bugDescription: e.target.value,
+      descriptionError:""
     });
   }
  
@@ -81,7 +88,8 @@ componentDidMount() {
 
   onChangeCreatedOn(e) {
     this.setState({
-      createdOn: e.target.value
+      createdOn: e.target.value,
+      createdOnError:""
     });
   }
  
@@ -93,7 +101,8 @@ componentDidMount() {
 
   onChangeAttachement(e) {
     this.setState({
-      attachement: e.target.value
+      attachement: e.target.value,
+      attachementError:""
     });
   }
  
@@ -129,6 +138,34 @@ componentDidMount() {
     	priority: ""
     });
   }
+  validateForm = (data) =>{
+	  if (data.bugTitle==="") {
+			this.setState({
+				titleError: "Cannot be empty"
+		    });
+			return false;
+		}
+		if (data.bugDescription==="") {
+			this.setState({
+				descriptionError: "Cannot be empty"
+		    });
+			return false;
+		}
+		if (data.createdOn==="" || isNaN(data.createdOn) || data.createdOn==="NAN") {
+			this.setState({
+				createdOnError: "Please Choose A Date"
+		    });
+			return false;
+		}
+		if (data.attachement==="") {
+			this.setState({
+				testingTypeError:"",
+				attachementError: "Please Attach A File"
+		    });
+			return false;
+		}
+		return true;
+  }
  
   saveBug() {
     var data = {
@@ -143,26 +180,28 @@ componentDidMount() {
       priority: this.priority.value
     };
 
-    NetworkService.create(data)
-      .then(response => {
-        this.setState({
-          id: response.data.id,
-          bugTitle: response.data.title,
-          bugDescription: response.data.description,
-          createdBy: response.data.createdBy,
-          createdOn: response.data.createdOn,
-          testingType: response.data.testingType,
-          attachement: response.data.attachement,
-          assignedTo: response.data.assignedTo,
-          status: response.data.status,
-          priority: response.data.priority,
-          submitted: true
-        });
-        console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    if (this.validateForm(data)){
+	    NetworkService.create(data)
+	      .then(response => {
+	        this.setState({
+	          id: response.data.id,
+	          bugTitle: response.data.title,
+	          bugDescription: response.data.description,
+	          createdBy: response.data.createdBy,
+	          createdOn: response.data.createdOn,
+	          testingType: response.data.testingType,
+	          attachement: response.data.attachement,
+	          assignedTo: response.data.assignedTo,
+	          status: response.data.status,
+	          priority: response.data.priority,
+	          submitted: true
+	        });
+	        console.log(response.data);
+	      })
+	      .catch(e => {
+	        console.log(e);
+	      });
+      }
   }
  
   render() {
@@ -189,6 +228,9 @@ componentDidMount() {
                 onChange={this.onChangeTitle}
                 name="title"
               />
+              <div class="error">	
+              		{this.state.titleError}	
+              </div>
             </div>
 
             <div className="form-group">
@@ -202,6 +244,9 @@ componentDidMount() {
                 onChange={this.onChangeDescription}
                 name="description"
               />
+              <div class="error">	
+              		{this.state.descriptionError}	
+              </div>
             </div>
             <div className="form-group">
               <label htmlFor="createdBy">Created By</label>
@@ -228,6 +273,9 @@ componentDidMount() {
                 name="createdOn"
                 ref = {(input)=> this.createdOn = input}
               />
+              <div class="error">	
+              		{this.state.createdOnError}	
+              </div>
             </div>
            
             <div className="form-group">
@@ -251,6 +299,9 @@ componentDidMount() {
                 onChange={this.onChangeAttachement}
                 name="attachement"
               />
+              <div class="error">	
+              		{this.state.attachementError}	
+              </div>
             </div>
            
             <div className="form-group">

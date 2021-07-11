@@ -24,13 +24,15 @@ class UserComponent extends Component {
 	
 	onChangeName(e) {
 		this.setState({
-			userName: e.target.value
+			userName: e.target.value,
+			userNameError:""
 	    });
 	}
 
 	onChangePassword(e) {
 		this.setState({
-			password: e.target.value
+			password: e.target.value,
+			passwordError:""
 		});
 	}
 	
@@ -59,7 +61,6 @@ class UserComponent extends Component {
 		if (data.password=="") {
 			this.setState({
 				passwordError: "Password Cannot be empty",
-				userNameError:""
 		    });
 			return false;
 		}
