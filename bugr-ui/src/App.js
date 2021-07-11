@@ -30,7 +30,7 @@ state = {
     return (
       <div>
       <Router>
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
+      <nav className="navbar navbar-expand navbar-dark bg-primary">
           <Link to={"/dashboard"} className="navbar-brand">
             Bug R
           </Link>
@@ -42,20 +42,30 @@ state = {
             </li>
             <li className="nav-item">
               <Link to={"/Add"} className="nav-link">
-                Add
+                Add Bug
               </Link>
             </li>
             <li className="nav-item">
               <Link to={"/Grid"} className="nav-link">
-                Grid
+                Bugs
               </Link>
             </li>
             <li className="nav-item">
               <Link to={"/User"} className="nav-link">
-                User
+                Users
               </Link>
             </li>
           </div>
+          <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+	          <ul class="navbar-nav ml-auto">
+		          <li className="nav-item">
+		           		<a class="nav-link disabled" href="#">{"Hi "+this.state.user.userName}</a>
+		           </li>
+		           <li className="nav-item">
+			           <a class="nav-link" href="/logout">Logout</a>
+			       </li>
+	          </ul>
+	      </div>
         </nav>
        
         <div className="container mt-3">
