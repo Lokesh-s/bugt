@@ -70,7 +70,9 @@ state = {
        
         <div className="container mt-3">
           <Switch>
-            <Route exact path={["/DashboardComponent"]} component={DashboardComponent} />
+            <Route exact path="/dashboard" render={(props) => (
+            	    <DashboardComponent {...props} user={this.state.user} />
+            )} />
             <Route exact path="/add" render={(props) => (
             	    <BugComponent {...props} user={this.state.user} />
             )} />
