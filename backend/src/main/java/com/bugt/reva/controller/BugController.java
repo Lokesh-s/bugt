@@ -26,11 +26,22 @@ public class BugController {
 	@Autowired
 	BugService bugService;
 	
-	@GetMapping("/bugs")
-	public ResponseEntity<List<BugForm>> getAllBugs(){
+	@GetMapping("/bugs/{username}/{role}")
+	public ResponseEntity<List<BugForm>> getAllBugs(@PathVariable("username") String username,
+			@PathVariable("role") String role){
 		try {
 			List<BugForm> bugList = new ArrayList<BugForm>();
-			bugService.findAll().forEach(bugList::add);
+			if (role.equalsIgnoreCase("Manager")) {
+				bugService.findAll().forEach(bugList::add);
+			} else {
+				List<BugForm> tempList=bugService.findAll();
+				for (int i = 0; i < tempList.size(); i++) {
+					BugForm bugForm=tempList.get(i);
+					if (bugForm.getAssignedTo().equalsIgnoreCase(username)) {
+						bugList.add(bugForm);
+					}
+				}
+			}
 			if (bugList.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}

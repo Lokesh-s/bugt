@@ -74,7 +74,9 @@ state = {
             <Route exact path="/add" render={(props) => (
             	    <BugComponent {...props} user={this.state.user} />
             )} />
-            <Route path="/Grid" component={BugGridComponent} />
+            <Route exact path="/Grid" render={(props) => (
+            	    <BugGridComponent {...props} user={this.state.user} />
+            )} />
             <Route path="/User" component={UserComponent} />
           </Switch>
         </div>

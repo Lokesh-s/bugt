@@ -14,8 +14,8 @@ class NetworkService {
 	 return http.get("/userDetails");
   }
 	
-  getAll() {
-    return http.get("/api/bugs");
+  getAllBugs(name,role) {
+    return http.get("/api/bugs/"+name+"/"+role);
   }
 
   get(id) {

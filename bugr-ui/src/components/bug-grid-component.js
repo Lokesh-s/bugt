@@ -43,7 +43,7 @@ class BugGridComponent extends Component{
  
 
   componentDidMount() {
-    NetworkService.getAll()
+    NetworkService.getAllBugs(this.props.user.userName,this.props.user.authorities[0].authority)
       .then(response => {
         this.setState({
           defects: response.data
