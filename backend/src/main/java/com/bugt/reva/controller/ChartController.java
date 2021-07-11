@@ -101,4 +101,72 @@ public class ChartController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@GetMapping("/chart/users")
+	public ResponseEntity<List<List<Object>>> getBugsForUser() {
+		int open=0;
+		int closed=0;
+		int retest=0;
+		int fixed=0;
+		int deferred=0;
+		try {
+			List<List<Object>> finalList=new ArrayList<List<Object>>();
+			List<Object> headerList=new ArrayList<Object>();
+			headerList.add("Name");
+			headerList.add("Open");
+			headerList.add("Closed");
+			headerList.add("Fixed");
+			finalList.add(headerList);
+			
+			List<BugForm> bugList = new ArrayList<BugForm>();
+			bugService.findAll().forEach(bugList::add);
+			
+			for (int i = 0; i < bugList.size(); i++) {
+				BugForm bugForm=bugList.get(i);
+				if (bugForm.getStatus().equalsIgnoreCase("open")) {
+					open++;
+				} else if(bugForm.getStatus().equalsIgnoreCase("close")) {
+					closed++;
+				} else if(bugForm.getStatus().equalsIgnoreCase("fixed")) {
+					fixed++;
+				} else if(bugForm.getStatus().equalsIgnoreCase("Re-Test")) {
+					retest++;
+				} else if(bugForm.getStatus().equalsIgnoreCase("deferred")) {
+					deferred++;
+				}
+			}
+			
+			List<Object> openList=new ArrayList<Object>();
+			openList.add("open");
+			openList.add(open);
+			finalList.add(openList);
+			
+			List<Object> closeList=new ArrayList<Object>();
+			closeList.add("close");
+			closeList.add(closed);
+			finalList.add(closeList);
+			
+			List<Object> reTestList=new ArrayList<Object>();
+			reTestList.add("Re-test");
+			reTestList.add(retest);
+			finalList.add(reTestList);
+			
+			List<Object> fixedList=new ArrayList<Object>();
+			fixedList.add("fixed");
+			fixedList.add(fixed);
+			finalList.add(fixedList);
+			
+			List<Object> deferedList=new ArrayList<Object>();
+			deferedList.add("Defered List");
+			deferedList.add(deferred);
+			finalList.add(deferedList);
+			
+			if (finalList.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(finalList, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

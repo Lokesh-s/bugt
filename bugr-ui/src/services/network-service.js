@@ -17,6 +17,10 @@ class NetworkService {
   getBugsStatusChart(name,role) {
 	    return http.get("/chart/bugs/"+name+"/"+role);
   }
+  
+  getOpenBugsForUser() {
+	    return http.get("/chart/users");
+  }
 	
   getAllBugs(name,role) {
     return http.get("/api/bugs/"+name+"/"+role);
