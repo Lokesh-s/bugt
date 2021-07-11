@@ -13,6 +13,10 @@ class NetworkService {
   getUserDetails() {
 	 return http.get("/userDetails");
   }
+  
+  getBugsStatusChart(name,role) {
+	    return http.get("/chart/bugs/"+name+"/"+role);
+  }
 	
   getAllBugs(name,role) {
     return http.get("/api/bugs/"+name+"/"+role);

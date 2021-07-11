@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import NetworkService from "../services/network-service";
+import Bugspie from "./bugs-pie";
 
 class DashboardComponent extends Component {
   state = {
+	defects: [],
     user: {}
   }
 
   componentDidMount() {
-    NetworkService.getUserDetails()
+    NetworkService.getAllBugs(this.props.user.userName,this.props.user.authorities[0].authority)
       .then(response => {
         this.setState({
-          user: response.data
+        	defects: response.data
         });
         console.log(response.data);
       })
@@ -20,9 +22,7 @@ class DashboardComponent extends Component {
   }
   render() {
     return (
-    		<div>
-    		{"Dashboard Component"}
-    		</div>
+    		<Bugspie user={this.props.user}/>
       );
   }
 }
