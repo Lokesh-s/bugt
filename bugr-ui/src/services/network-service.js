@@ -26,7 +26,7 @@ class NetworkService {
     return http.get("/api/bugs/"+name+"/"+role);
   }
 
-  get(id) {
+  getBugDetails(id) {
     return http.get(`/api/bugs/${id}`);
   }
 
