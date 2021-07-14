@@ -80,12 +80,12 @@ public class BugController {
 			bugFromDB.setBugTitle(bugForm.getBugTitle());
 			bugFromDB.setBugDescription(bugForm.getBugDescription());
 			bugFromDB.setCreatedBy(bugForm.getCreatedBy());
-			bugFromDB.setCreatedOn(bugForm.getCreatedOn());
+			//bugFromDB.setCreatedOn(bugForm.getCreatedOn());
 			bugFromDB.setTestingType(bugForm.getTestingType());
 			bugFromDB.setAttachement(bugForm.getAttachement());
 			bugFromDB.setAssignedTo(bugForm.getAssignedTo());
 			bugFromDB.setModifiedOn(bugForm.getModifiedOn());
-			bugFromDB.setTargetDate(bugForm.getTargetDate());
+			//bugFromDB.setTargetDate(bugForm.getTargetDate());
 			bugFromDB.setStatus(bugForm.getStatus());
 			bugFromDB.setPriority(bugForm.getPriority());
 			return new ResponseEntity<>(bugService.update(bugFromDB), HttpStatus.OK);
