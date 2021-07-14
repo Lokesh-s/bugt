@@ -29,7 +29,7 @@ class BugsPie extends Component{
     		  loader={<div>Loading Chart</div>}
     		  data={this.state.data}
     		  options={{
-    		    title: 'My Daily Activities',
+    		    title: 'Defect percentage based on status',
     		    // Just add this option
     		    is3D: true,
     		  }}

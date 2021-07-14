@@ -8,7 +8,7 @@ class BugsBar extends Component{
   	};
   
   componentDidMount() {
-	    NetworkService.getBugsStatusChart()
+	    NetworkService.getBugsForUser()
 	      .then(response => {
 	        this.setState({
 	        	data: response.data
@@ -27,18 +27,12 @@ class BugsBar extends Component{
     		  height={'300px'}
     		  chartType="Bar"
     		  loader={<div>Loading Chart</div>}
-    		  data={[
-    		    ['Year', 'Sales', 'Expenses', 'Profit'],
-    		    ['2014', 1000, 400, 200],
-    		    ['2015', 1170, 460, 250],
-    		    ['2016', 660, 1120, 300],
-    		    ['2017', 1030, 540, 350],
-    		  ]}
+    		  data={this.state.data}
     		  options={{
     		    // Material design options
     		    chart: {
-    		      title: 'Company Performance',
-    		      subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+    		      title: 'Defect status based on users',
+    		      subtitle: 'X-axis: Name, Y-axis: Defect count',
     		    },
     		  }}
     		  // For tests

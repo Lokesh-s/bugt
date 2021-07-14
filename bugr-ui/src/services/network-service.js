@@ -18,7 +18,7 @@ class NetworkService {
 	    return http.get("/chart/bugs/"+name+"/"+role);
   }
   
-  getOpenBugsForUser() {
+  getBugsForUser() {
 	    return http.get("/chart/users");
   }
 	
