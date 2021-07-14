@@ -18,7 +18,8 @@ class UserComponent extends Component {
 	     roles: "",
 	     roleList:["Manager","Tester","Developer"],
 	     userNameError:"",
-	     passwordError:""
+	     passwordError:"",
+	     submitted: false
 	   };
 	}
 	
@@ -47,7 +48,8 @@ class UserComponent extends Component {
 	    	id: null,
 	    	userName: "",
 	    	password: "",
-	    	roles: ""
+	    	roles: "",
+	    	submitted: false
 	    });
 	}
 	

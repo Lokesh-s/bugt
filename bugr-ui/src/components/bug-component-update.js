@@ -38,7 +38,8 @@ constructor(props) {
       allUsersError:"",
      targetDate: "",
      targetDateText:"",
-     targetDateError:""
+     targetDateError:"",
+     submitted:false
    };
   }
 
@@ -162,7 +163,8 @@ componentDidMount() {
     	attachement: "",
     	assignedTo: "",
     	status:"",
-    	priority: ""
+    	priority: "",
+    	submitted:false
     });
   }
   validateForm = (data) =>{
@@ -216,9 +218,10 @@ componentDidMount() {
 	          assignedTo: response.data.assignedTo,
 	          status: response.data.status,
 	          priority: response.data.priority,
+	          submitted:true
 	        });
 	        console.log(response.data);
-	        alert("Bug "+{this.state.bugTitle} +" Updated Successfully!!!");
+	        //alert("Bug Updated Successfully!!!");
 	      })
 	      .catch(e => {
 	        console.log(e);
@@ -232,10 +235,7 @@ componentDidMount() {
       <div className="submit-form">
         {this.state.submitted ? (
           <div>
-            <h4>Bug Created successfully!</h4>
-            <button className="btn btn-success" onClick={this.newBug}>
-              Create
-            </button>
+            <h4>Bug Updated successfully!</h4>
           </div>
         ) : (
           <div>

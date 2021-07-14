@@ -40,7 +40,8 @@ constructor(props) {
       attachementError:"",
       allUsersError:"",
       targetDate: "",
-  	targetDateError:""
+  	targetDateError:"",
+  	submitted:false
    };
   }
 
@@ -147,7 +148,8 @@ componentDidMount() {
     	attachement: "",
     	assignedTo: "",
     	status:"",
-    	priority: ""
+    	priority: "",
+    	submitted: false
     });
   }
   validateForm = (data) =>{
