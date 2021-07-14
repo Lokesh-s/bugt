@@ -4,9 +4,9 @@ import BugUpdateComponent from "./bug-component-update";
 import NetworkService from "../services/network-service";
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
-import ToolkitProvider, { CSVExport } from 'react-bootstrap-table2-toolkit';
+import ToolkitProvider, { CSVExport,Search } from 'react-bootstrap-table2-toolkit';
 const { ExportCSVButton } = CSVExport;
-
+const { SearchBar } = Search;
 
 class BugGridComponent extends Component{
   state = {
@@ -29,7 +29,10 @@ class BugGridComponent extends Component{
 		 text: 'Created By'
 		}, {
 		 dataField: 'createdOn',
-		 text: 'Created On'
+		 text: 'Created Date'
+		},{
+		 dataField: 'targetDate',
+		 text: 'Target Date'
 		}, {
 		 dataField: 'testingType',
 		 text: 'Testing Type'
@@ -76,14 +79,17 @@ class BugGridComponent extends Component{
       <ToolkitProvider
 		  keyField="id"
 		  data={ this.state.defects }
-		      columns={ this.state.columns }
+		  columns={ this.state.columns }
 		  exportCSV
+		  search
 	  >
 	  {
 	    props => (
 	      <div>
 	        <ExportCSVButton { ...props.csvProps }>Export CSV!!</ExportCSVButton>
 	        <hr />
+	        <SearchBar { ...props.searchProps } />
+	        <hr/>
 	        <BootstrapTable { ...props.baseProps } keyField='id' rowEvents={ rowEvents }  headerClasses="header-class"/>
 	      </div>
 	   )
