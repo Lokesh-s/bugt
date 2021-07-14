@@ -21,6 +21,7 @@ public class BugForm {
 	private String attachement;
 	private String assignedTo;
 	private long modifiedOn;
+	private long targetDate;
 	private String status;
 	private String priority;
 	
@@ -29,7 +30,7 @@ public class BugForm {
 	}
 
 	public BugForm(long id, String bugTitle, String bugDescription, String createdBy, long createdOn,
-			String testingType, String attachement, String assignedTo, long modifiedOn, String status,
+			String testingType, String attachement, String assignedTo, long modifiedOn, long targetDate, String status,
 			String priority) {
 		super();
 		this.id = id;
@@ -41,8 +42,17 @@ public class BugForm {
 		this.attachement = attachement;
 		this.assignedTo = assignedTo;
 		this.modifiedOn = modifiedOn;
+		this.targetDate = targetDate;
 		this.status = status;
 		this.priority = priority;
+	}
+
+	public long getTargetDate() {
+		return targetDate;
+	}
+
+	public void setTargetDate(long targetDate) {
+		this.targetDate = targetDate;
 	}
 
 	public long getId() {

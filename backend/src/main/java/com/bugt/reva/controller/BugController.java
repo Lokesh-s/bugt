@@ -85,6 +85,7 @@ public class BugController {
 			bugFromDB.setAttachement(bugForm.getAttachement());
 			bugFromDB.setAssignedTo(bugForm.getAssignedTo());
 			bugFromDB.setModifiedOn(bugForm.getModifiedOn());
+			bugFromDB.setTargetDate(bugForm.getTargetDate());
 			bugFromDB.setStatus(bugForm.getStatus());
 			bugFromDB.setPriority(bugForm.getPriority());
 			return new ResponseEntity<>(bugService.update(bugFromDB), HttpStatus.OK);

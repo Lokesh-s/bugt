@@ -9,6 +9,7 @@ constructor(props) {
    this.onChangeDescription = this.onChangeDescription.bind(this);
    this.onChangeCreatedBy = this.onChangeCreatedBy.bind(this);
    this.onChangeCreatedOn = this.onChangeCreatedOn.bind(this);
+   this.onChangeTargetDate = this.onChangeTargetDate.bind(this);
    this.onChangeTestingType = this.onChangeTestingType.bind(this);
    this.onChangeAttachement = this.onChangeAttachement.bind(this);
    this.onChangeAssignedTo = this.onChangeAssignedTo.bind(this);
@@ -23,6 +24,7 @@ constructor(props) {
      bugDescription: "",
      createdBy: "",
      createdOn:"",
+     createdOnCurrent:new Date().toJSON().slice(0,10).split('-').reverse().join('/'),
      attachement: "",
      assignedTo: "",
      status:"",
@@ -36,7 +38,9 @@ constructor(props) {
      descriptionError:"",
       createdOnError:"",	
       attachementError:"",
-      allUsersError:""
+      allUsersError:"",
+      targetDate: "",
+  	targetDateError:""
    };
   }
 
@@ -92,7 +96,14 @@ componentDidMount() {
       createdOnError:""
     });
   }
- 
+  
+  onChangeTargetDate(e) {
+	    this.setState({
+	    	targetDate: e.target.value,
+	    	targetDateError:""
+	    });
+  }
+  
   onChangeTestingType(e) {
     this.setState({
       testingType: e.target.value
@@ -131,6 +142,7 @@ componentDidMount() {
     	bugDescription: "",
     	createdBy: "",
     	createdOn:"",
+    	targetDate:"",
     	testingType: "",
     	attachement: "",
     	assignedTo: "",
@@ -141,19 +153,19 @@ componentDidMount() {
   validateForm = (data) =>{
 	  if (data.bugTitle==="") {
 			this.setState({
-				titleError: "Cannot be empty"
+				titleError: "Bug Title Cannot be empty"
 		    });
 			return false;
 		}
 		if (data.bugDescription==="") {
 			this.setState({
-				descriptionError: "Cannot be empty"
+				descriptionError: "Description Cannot be empty"
 		    });
 			return false;
 		}
-		if (data.createdOn==="" || isNaN(data.createdOn) || data.createdOn==="NAN") {
+		if (data.targetDate==="" || isNaN(data.targetDate) || data.targetDate==="NAN") {
 			this.setState({
-				createdOnError: "Please Choose A Date"
+				targetDateError: "Please Choose a Target Date"
 		    });
 			return false;
 		}
@@ -172,7 +184,8 @@ componentDidMount() {
       bugTitle: this.state.bugTitle,
       bugDescription: this.state.bugDescription,
       createdBy: this.createdBy.value,
-      createdOn: new Date(this.createdOn.value).getTime(),
+      createdOn: new Date().getTime(),
+      targetDate:new Date(this.targetDate.value).getTime(),
       testingType: this.testingType.value,
       attachement: this.state.attachement,
       assignedTo: this.assignedTo.value,
@@ -189,6 +202,7 @@ componentDidMount() {
 	          bugDescription: response.data.description,
 	          createdBy: response.data.createdBy,
 	          createdOn: response.data.createdOn,
+	          targetDate:response.data.targetDate,
 	          testingType: response.data.testingType,
 	          attachement: response.data.attachement,
 	          assignedTo: response.data.assignedTo,
@@ -262,19 +276,34 @@ componentDidMount() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="createdOn">Created On</label>
+              <label htmlFor="createdOn">Created Date</label>
               <input
-                type="date"
+                type="text"
                 className="form-control"
                 id="createdOn"
                 required
-                value={this.state.createdOn}
+                disabled
+                value={this.state.createdOnCurrent}
                 onChange={this.onChangeCreatedOn}
                 name="createdOn"
                 ref = {(input)=> this.createdOn = input}
               />
+            </div>
+              
+            <div className="form-group">
+              <label htmlFor="targetDate">Target Date</label>
+              <input
+                type="date"
+                className="form-control"
+                id="targetDate"
+                required
+                value={this.state.targetDate}
+                onChange={this.onChangeTargetDate}
+                name="targetDate"
+                ref = {(input)=> this.targetDate = input}
+              />
               <div class="error">	
-              		{this.state.createdOnError}	
+        		{this.state.targetDateError}	
               </div>
             </div>
            
